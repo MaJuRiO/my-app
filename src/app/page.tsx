@@ -15,16 +15,15 @@ import {
   useColorModeValue,
   Img
 } from '@chakra-ui/react';
-import NextLink from 'next/link'
 
-export default function Login() {
+
+export default function Page() {
   return (
     <Flex maxW={'100%'} py={12} bgImage={'map.png'}
       bgRepeat={'no-repeat'}
       bgPosition={'left top'}
       bgAttachment={'fixed'}
-      bgSize={'cover'}
-    >
+      bgSize={'cover'}>
       <Stack spacing={8} mx={'left'} maxW={'md'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>ลงชื่อเข้าใช้สำหรับพนักงาน</Heading>
@@ -37,11 +36,11 @@ export default function Login() {
           <Stack spacing={4}>
             <FormControl id="Username" >
               <FormLabel>Username</FormLabel>
-              <Input type="Username" isRequired={true}/>
+              <Input type="Username" isRequired={true} />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input type="password" isRequired={true}/>
+              <Input type="password" isRequired={true} />
             </FormControl>
             <Stack spacing={10}>
               <Stack

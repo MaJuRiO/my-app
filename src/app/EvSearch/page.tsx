@@ -1,28 +1,67 @@
 'use client'
 import {
-    Spacer,
+    Select,
     Flex,
+    VStack,
+    StackDivider,
     Box,
-    FormControl,
-    FormLabel,
+    Divider,
+    AbsoluteCenter,
     Input,
-    Checkbox,
-    Stack,
-    Link,
-    Button,
-    Heading,
-    Text,
     useColorModeValue,
+    Button,
+    Stack,
     Img,
-    AspectRatio
-} from '@chakra-ui/react';
+    Text,
+    Link 
+} from '@chakra-ui/react'
 
-export default function EvSearch() {
+export default function Page() {
     return (
-        <AspectRatio ratio={16 / 9}>
-            <iframe
-                src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.952912260219!2d3.375295414770757!3d6.5276316452784755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8b2ae68280c1%3A0xdc9e87a367c3d9cb!2sLagos!5e0!3m2!1sen!2sng!4v1567723392506!5m2!1sen!2sng'
-            />
-        </AspectRatio>
+        <Flex bgColor={'#8CD9F3'}>
+            <VStack
+                bgColor={'#BECFE3'}
+                spacing={4}
+                align='left'
+                justify={'left'}
+                minW={'370px'}
+                minH="100vh"
+                borderRight="1px"
+                borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+            >
+                <Text align={'center'} paddingTop={10} fontSize='3xl'>EV Charger Location</Text>
+                <Stack align={'center'}>
+                    <Select placeholder='จังหวัด' maxW={300} marginTop={10}>
+                        <option value='option1'>Option 1</option>
+                        <option value='option2'>Option 2</option>
+                        <option value='option3'>Option 3</option>
+                    </Select>
+                </Stack>
+                <Stack align={'center'}>
+                    <Select placeholder='อำเภอ' w={300} >
+                        <option value='option1'>Option 1</option>
+                        <option value='option2'>Option 2</option>
+                        <option value='option3'>Option 3</option>
+                    </Select>
+                </Stack>
+
+                <Box position='relative' padding='3' >
+                    <Divider />
+                    <AbsoluteCenter bg='white' px='4' backgroundColor={'#BECFE3'}>
+                        or
+                    </AbsoluteCenter>
+                </Box>
+                <Stack align={'center'}>
+                    <Input placeholder='CA' maxW={300} />
+                </Stack>
+                <Stack align={'center'} marginTop={50} >
+                    <Button colorScheme='yellow' >Search</Button>
+                </Stack>
+            </VStack>
+            <Stack justify={'center'} marginLeft={{ base: '0', sm: '15%' }}>
+                <Img src={'previewmap.png'} bgAttachment={'fixed'}/>
+            </Stack>
+        </Flex>
+
     );
 }

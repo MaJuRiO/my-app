@@ -19,7 +19,10 @@ import {
   CloseIcon,
 } from '@chakra-ui/icons';
 
+import { useSession, signIn, signOut } from "next-auth/react"
+
 export default function RootLayout({
+
   children,
 }: {
   children: React.ReactNode;
@@ -29,7 +32,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          <Box>
+          <Box
+            position={'sticky'}
+            top={0}>
             <Flex
               bg={useColorModeValue('white', 'gray.800')}
               color={useColorModeValue('gray.600', 'white')}
@@ -39,7 +44,9 @@ export default function RootLayout({
               borderBottom={1}
               borderStyle={'solid'}
               borderColor={useColorModeValue('gray.200', 'gray.900')}
-              align={'center'}>
+              align={'center'}
+
+            >
               <Flex
                 flex={{ base: 1, md: 'auto' }}
                 ml={{ base: -2 }}
@@ -62,7 +69,6 @@ export default function RootLayout({
                     <Img height="60px" src="/pea.png" />
                   </Link>
                 </Text>
-
                 <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
                 </Flex>
               </Flex>
@@ -79,10 +85,12 @@ export default function RootLayout({
                   fontWeight={600}
                   color={'white'}
                   bg={'pink.400'}
-                  href={'#'}
+                  //href={'/api/auth/signin'}
                   _hover={{
                     bg: 'pink.300',
-                  }}>
+                  }}
+                  onClick={() => signIn()}
+                  >
                   Log in
                 </Button>
               </Stack>
