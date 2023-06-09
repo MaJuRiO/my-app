@@ -79,7 +79,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             h="full"
             {...rest}>
             <Flex marginTop={5} h="18" alignItems="center" mx="8" justifyContent="space-between">
-                <Text fontSize="md" fontFamily="monospace" >
+                <Text fontSize="md" fontFamily="monospace" paddingY={5}>
                     CHARGER MANAGEMENT
                 </Text>
                 <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />

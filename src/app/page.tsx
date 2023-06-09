@@ -1,73 +1,103 @@
 'use client'
 import {
-  Spacer,
   Flex,
   Box,
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
+  InputGroup,
+  HStack,
+  InputRightElement,
   Stack,
-  Link,
   Button,
   Heading,
   Text,
   useColorModeValue,
-  Img
+  Link,
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
+export default function SignupCard() {
+  const [showPassword, setShowPassword] = useState(false);
 
-export default function Page() {
   return (
-    <Flex maxW={'100%'} py={12} bgImage={'map.png'}
-      bgRepeat={'no-repeat'}
-      bgPosition={'left top'}
-      bgAttachment={'fixed'}
-      bgSize={'cover'}>
-      <Stack spacing={8} mx={'left'} maxW={'md'} py={12} px={6}>
+    <Flex
+      minH={'100vh'}
+      align={'center'}
+      justify={'center'}
+      bg={useColorModeValue('gray.50', 'gray.800')}>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>ลงชื่อเข้าใช้สำหรับพนักงาน</Heading>
+          <Heading fontSize={'4xl'} textAlign={'center'}>
+            Sign up
+          </Heading>
+          <Text fontSize={'lg'} color={'gray.600'}>
+            to enjoy all of our cool features ✌️
+          </Text>
         </Stack>
         <Box
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.700')}
           boxShadow={'lg'}
           p={8}>
-          <Stack spacing={4}>
-            <FormControl id="Username" >
-              <FormLabel>Username</FormLabel>
-              <Input type="Username" isRequired={true} />
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Password</FormLabel>
-              <Input type="password" isRequired={true} />
-            </FormControl>
-            <Stack spacing={10}>
-              <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                align={'start'}
-                justify={'space-between'}>
-                <Checkbox>Remember me</Checkbox>
-                <Link color={'blue.400'}>Forgot password?</Link>
-              </Stack>
-              <Link href='/EvSearch'>
+          <form action="/api/auth/register" method="post">
+            <Stack spacing={4}>
+              <HStack>
+                <Box>
+                  <FormControl id="firstName" isRequired>
+                    <FormLabel>First Name</FormLabel>
+                    <Input type="text" id='Fname' name='Fname' />
+                  </FormControl>
+                </Box>
+                <Box>
+                  <FormControl id="lastName">
+                    <FormLabel>Last Name</FormLabel>
+                    <Input type="text" id='Lname' name='Lname' />
+                  </FormControl>
+                </Box>
+              </HStack>
+              <FormControl id="email" isRequired>
+                <FormLabel>Email address</FormLabel>
+                <Input type="email" id='Email' name='Email' />
+              </FormControl>
+              <FormControl id="password" isRequired>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                  <Input type={showPassword ? 'text' : 'password'} id='password' name='password' />
+                  <InputRightElement h={'full'}>
+                    <Button
+                      variant={'ghost'}
+                      onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                      }>
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+              <Stack spacing={10} pt={2}>
                 <Button
+                  type='submit'
+                  loadingText="Submitting"
+                  size="lg"
                   bg={'blue.400'}
                   color={'white'}
                   _hover={{
                     bg: 'blue.500',
-                  }}
-                >
-                  Log in
+                  }}>
+                  Sign up
                 </Button>
-              </Link>
+              </Stack>
+              <Stack pt={6}>
+                <Text align={'center'}>
+                  Already a user? <Link color={'blue.400'}>Login</Link>
+                </Text>
+              </Stack>
             </Stack>
-          </Stack>
+          </form>
         </Box>
       </Stack>
-      <Stack justify={'center'} marginLeft={{ base: '0', sm: '15%' }}>
-        <Img src={'LOGO-pea-removebg-preview.png'} />
-      </Stack>
-    </Flex>
+    </Flex >
   );
 }
