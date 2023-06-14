@@ -7,26 +7,22 @@ export default async (req, res) => {
         const db = client.db("account");
         const { Email, password: pass } = req.body;
 
-        const checkUsername = await db.collection("posts").findOne({
-            Email: Email,
-        });
-
-        
+        const checkUsername = await db.collection("posts").findOne({Email:Email});
         if (!checkUsername) {
             const message = "User not found";
             res.json({ error: message });
             return; // Exit the function
         }
 
-        if (bcrypt.compare(pass, checkUsername.password)) {
-            const message = "login"
+        const match = await bcrypt.compare(pass, checkUsername.password);
+        if (match) {
+            const message = { "status": "ok", "user": checkUsername }
             res.json(message)
         }
-        else{
-            const message = "password not correct"
+        else {
+            const message = { "status": "error" }
             res.json(message)
         }
-
 
     } catch (e) {
         console.error(e);

@@ -19,18 +19,19 @@ export default function AddPost() {
     const [province_isSelect, province_setSelect] = useState(true);
     const [amphur_isSelect, amphur_setSelect] = useState(true);
     const [tambon_isSelect, tambon_setSelect] = useState(true);
-
     const [selected_province, setSelected_province] = useState('');
     const [selected_amphur, setSelected_amphur] = useState('');
+
     return (
         <form action="/api/addCharger" method="post">
             <Flex
+                bgGradient='linear(to-l, #7928CA, #FF0080)'
                 minH={'100vh'}
                 align={'center'}
                 justify={'center'}
-                bg={useColorModeValue('gray.50', 'gray.800')}
                 position={'sticky'}>
-                <Box>
+                <Box
+                    bgColor={'white'} padding={10} rounded={'xl'}>
                     <Stack direction={['column', 'row']} spacing='24px'>
                         <FormControl isRequired>
                             <FormLabel>ชื่อ</FormLabel>
@@ -47,7 +48,7 @@ export default function AddPost() {
                     </FormControl>
                     <FormControl>
                         <FormLabel>รายละเอียดที่อยู่</FormLabel>
-                        <Input variant='outline' />
+                        <Input placeholder='ที่อยุ่' id='Location_detail' name='Location_detail' />
                     </FormControl>
                     <Stack direction={['column', 'row']} spacing='24px'>
                         <FormControl>
@@ -89,7 +90,7 @@ export default function AddPost() {
                         <FormControl>
                             <FormLabel>ตำบล</FormLabel>
                             <Select placeholder='ตำบล' id='Location_tambon' name='Location_tambon' isDisabled={amphur_isSelect}
-                            onChange={()=>tambon_setSelect(false)}>
+                                onChange={() => tambon_setSelect(false)}>
                                 {
                                     data.data.map((province) => {
                                         if (province.name_th == selected_province) {

@@ -4,20 +4,22 @@ export default async (req, res) => {
     try {
         const client = await clientPromise;
         const db = client.db("EVCharger");
-        const { Fname, Lname, Email, Location_province, Location_amphure, Location_tambon, zip_code, CA} = req.body;
+        const { Fname, Lname, Email,Location_detail, Location_province, Location_amphure, Location_tambon, zip_code, CA} = req.body;
 
         const HB_rate = 300
-
+        const status = "Unknow"
         const post = await db.collection("posts").insertOne({
             Fname,
             Lname,
             Email,
+            Location_detail,
             Location_province, 
             Location_amphure, 
             Location_tambon, 
             zip_code,
             CA,
-            HB_rate
+            HB_rate,
+            status,
         });
         res.status(200).send('Charger added successfully');
     } catch (e) {

@@ -23,8 +23,8 @@ export default async (req, res) => {
             Email,
             password: hashedPassword
         });
-
-        res.json(post);
+        const message = " ลงทะเบียนสำเร็จ "
+        res.json(message);
     } catch (e) {
         console.error(e);
         throw new Error(e).message;

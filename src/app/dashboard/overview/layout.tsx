@@ -56,7 +56,6 @@ export default function SimpleSidebar({ children }: { children: ReactNode }) {
                     <SidebarContent onClose={onClose} />
                 </DrawerContent>
             </Drawer>
-            {/* mobilenav */}
             <Box ml={{ base: 0, md: 60 }} p="4">
                 {children}
             </Box>

@@ -15,8 +15,6 @@ import {
     useDisclosure,
     ListItem,
     List,
-} from '@chakra-ui/react'
-import {
     Modal,
     ModalOverlay,
     ModalContent,
@@ -25,105 +23,104 @@ import {
     ModalBody,
     ModalCloseButton,
 } from '@chakra-ui/react'
-
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import LISTALL from '../components/LISTALL';
 
-interface IOption {
-    _id: string;
-    Fname: string;
-    Lname: String;
-    Email: String;
-    Location_province: String;
-    Location_amphure: String;
-    Location_tambon: String;
-    zip_code: number;
-    CA: String;
-    HB_rate: number;
-}
 
 export default function Page() {
-    const axios = require('axios');
-    const [responseData, setResponseData] = useState<IOption[]>()
+    const router = useRouter()
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const data = axios.get('http://localhost:3000/api/getCharger').then((response: any) => {
-        const data = response.data
-        setResponseData(data);
-    })
-        .catch((error: string | undefined) => {
-            throw new Error(error).message;
-        });
+    const [ca, setCA] = useState('');
 
-    return (
-        <Flex minWidth='max-content' alignSelf='center' gap='2'>
-            <Box bgColor={'#BECFE3'}
-                w={'320px'}
-                h={'100vh'}
-                borderRight="1px"
-                borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-                top={0}
-            >
-                <VStack
-                    spacing={4}
+    const [{ keySearch, chargerName, csPath, location, deviceType, online, deviceId, ownerAddress }, setkeysearch] = useState({
+        keySearch: "",
+        chargerName: "",
+        csPath: "",
+        location: "",
+        deviceType: "",
+        online: "",
+        deviceId: "",
+        ownerAddress: ""
+    });
+
+    const url = `/dashboard/overview?keySearch=${keySearch}&chargerName=${chargerName}&csPath=${csPath}&location=${location}&deviceType=${deviceType}&online=${online}&deviceId=${deviceId}&ownerAddress=${ownerAddress}`;
+    const { data: session } = useSession()
+    if (session) {
+        return (
+            <Flex minWidth='max-content' alignSelf='center' gap='2'>
+                <Box bgColor={'#BECFE3'}
+                    w={'320px'}
+                    h={'100vh'}
+                    borderRight="1px"
+                    borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+                    top={0}
                 >
-                    <Text align={'center'} paddingTop={10} fontSize='3xl'>EV Charger Location</Text>
-                    <Stack align={'center'}>
-                        <Select placeholder='จังหวัด' w={300} marginTop={10}>
-                            <option value='option1'>Option 1</option>
-                            <option value='option2'>Option 2</option>
-                            <option value='option3'>Option 3</option>
-                        </Select>
-                    </Stack>
-                    <Stack align={'center'}>
-                        <Select placeholder='อำเภอ' w={300} >
-                            <option value='option1'>Option 1</option>
-                            <option value='option2'>Option 2</option>
-                            <option value='option3'>Option 3</option>
-                        </Select>
-                    </Stack>
+                    <VStack spacing={4}>
+                        <Text align={'center'} paddingTop={10} fontSize='3xl'>EV Charger Location</Text>
 
-                    <Box position='relative' padding='3' >
-                        <Divider />
-                        <AbsoluteCenter bg='white' px='4' backgroundColor={'#BECFE3'}>
-                            or
-                        </AbsoluteCenter>
-                    </Box>
-                    <Stack align={'center'}>
-                        <Input placeholder='CA' w={300} />
-                    </Stack>
-                    <Stack align={'center'} marginTop={50} >
-                        <Button colorScheme='yellow' >Search</Button>
-                    </Stack>
-                </VStack>
-            </Box>
-            <Spacer />
-            <Box>
-                <Button onClick={onOpen}><HamburgerIcon /></Button>
-                <Modal isOpen={isOpen} onClose={onClose} size={'xl'} >
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>Modal Title</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <List spacing={2}>
-                                {responseData?.map(function (object: IOption, i: any) {
-                                    return <ListItem border={'solid'} fontSize='xl'>
-                                        {object.CA} {object.Location_province} {object.Location_amphure} {object.Location_tambon}
-                                        </ListItem>
-                                })}
-                            </List>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button colorScheme='blue' mr={3} onClick={onClose}>
-                                Close
-                            </Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </Box>
+                        <Stack align={'center'}>
+                            <Input placeholder='keySearch' type='text' w={300} id='keySearch' name='keySearch' onChange={(e) => { setkeysearch(prevState => ({...prevState,keySearch:e.target.value}));}}  />
+                        </Stack>
+                        <Stack align={'center'}>
+                            <Input placeholder='chargerName' type='text' w={300} id='chargerName' name='chargerName' onChange={(e) => {
+                                setkeysearch(prevState => ({...prevState,chargerName:e.target.value}));}} />
+                        </Stack>
+                        <Stack align={'center'}>
+                            <Input placeholder='csPath' type='text' w={300} id='csPath' name='csPath' onChange={(e) => { setkeysearch(prevState => ({...prevState,csPath:e.target.value}));}}  />
+                        </Stack>
+                        <Stack align={'center'}>
+                            <Input placeholder='location' type='text' w={300} id='location' name='location' onChange={(e) => { setkeysearch(prevState => ({...prevState,location:e.target.value}));}}  />
+                        </Stack>
+                        <Stack align={'center'}>
+                            <Input placeholder='deviceType' type='text' w={300} id='deviceType' name='deviceType' onChange={(e) => { setkeysearch(prevState => ({...prevState,deviceType:e.target.value}));}}/>
+                        </Stack>
+                        <Stack align={'center'}>
+                            <Input placeholder='online' type='text' w={300} id='online' name='online' onChange={(e) => { setkeysearch(prevState => ({...prevState,online:e.target.value}));}}/>
+                        </Stack>
+                        <Stack align={'center'}>
+                            <Input placeholder='deviceId' type='text' w={300} id='deviceId' name='deviceId' onChange={(e) => { setkeysearch(prevState => ({...prevState,deviceId:e.target.value}));}}/>
+                        </Stack>
+                        <Stack align={'center'}>
+                            <Input placeholder='ownerAddress' type='text' w={300} id='ownerAddress' name='ownerAddress' onChange={(e) => { setkeysearch(prevState => ({...prevState,ownerAddress:e.target.value}));}}/>
+                        </Stack>
 
-        </Flex >
+                        <Stack align={'center'} marginTop={50} >
+                            <Button colorScheme='yellow' onClick={() => {
+                                router.push(url)
+                            }
+                            }>Search</Button>
+                        </Stack>
 
+                    </VStack>
+                </Box>
+                <Spacer />
+                <Box>
+                    <Button onClick={onOpen}><HamburgerIcon /></Button>
+                    <Modal isOpen={isOpen} onClose={onClose} size={'xl'} >
+                        <ModalOverlay />
+                        <ModalContent>
+                            <ModalHeader>Modal Title</ModalHeader>
+                            <ModalCloseButton />
+                            <ModalBody>
 
-    );
+                                <LISTALL></LISTALL>
+
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </Box>
+            </Flex >
+        );
+    }
+    return (
+        null
+    )
 }
