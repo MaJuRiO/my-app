@@ -26,7 +26,6 @@ export default function BasicStatistics() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([])
     const searchParams = useSearchParams()
-    console.log(searchParams?.toString())
     const url = `http://localhost:3014/home/api/station?${searchParams?.toString()}`
     useEffect(() => {
         const fetchData = async () => {

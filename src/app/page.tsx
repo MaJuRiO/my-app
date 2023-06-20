@@ -54,26 +54,28 @@ export default function SignupCard() {
                   <Box>
                     <FormControl id="firstName" isRequired>
                       <FormLabel>First Name</FormLabel>
-                      <Input type="text" id='Fname' name='Fname' />
+                      <Input type="text" id='Fname' name='Fname' placeholder='First Name' />
                     </FormControl>
                   </Box>
                   <Box>
                     <FormControl id="lastName">
                       <FormLabel>Last Name</FormLabel>
-                      <Input type="text" id='Lname' name='Lname' />
+                      <Input type="text" id='Lname' name='Lname' placeholder='Last Name'/>
                     </FormControl>
                   </Box>
                 </HStack>
                 <FormControl id="email" isRequired>
                   <FormLabel>Email address</FormLabel>
-                  <Input type="email" id='Email' name='Email' />
+                  <Input type="email" id='Email' name='Email' placeholder='Email' />
                 </FormControl>
                 <FormControl id="password" isRequired>
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
-                    <Input type={showPassword ? 'text' : 'password'} id='password' name='password' />
+                    <Input type={showPassword ? 'text' : 'password'} id='password' name='password' placeholder='Password' />
                     <InputRightElement h={'full'}>
                       <Button
+                        id="ghost"
+                        title="ghost"
                         variant={'ghost'}
                         onClick={() =>
                           setShowPassword((showPassword) => !showPassword)
@@ -85,8 +87,8 @@ export default function SignupCard() {
                 </FormControl>
                 <Stack spacing={10} pt={2}>
                   <Button
-                    type='submit'
-                    loadingText="Submitting"
+                    id="text"
+                    type='submit' loadingText="Submitting"
                     size="lg"
                     bg={'blue.400'}
                     color={'white'}
@@ -108,7 +110,7 @@ export default function SignupCard() {
       </Flex >
     );
   }
-  return(
+  return (
     myFunction()
   )
 }

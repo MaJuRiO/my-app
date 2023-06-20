@@ -1,23 +1,24 @@
 // app/layout.tsx
 'use client'
-
-import { Chakra } from './components/provider'
+import { CacheProvider } from '@chakra-ui/next-js'
+import { ChakraProvider } from '@chakra-ui/react'
+import { SessionProvider } from "next-auth/react"
 import { Nav } from './components/Nav'
 
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode
-}) {
-
+export default function RootLayout({ children, session }: { children: React.ReactNode, session: any }) {
   return (
-    <html lang="en">
-      <Chakra>
-          <body>
-          <Nav></Nav>
+    <html lang='en'>
+      <title>PEA</title>
+      <body>
+        <CacheProvider>
+          <ChakraProvider>
+            <SessionProvider session={session}>
+              <Nav/>
               {children}
-          </body>
-      </Chakra>
+            </SessionProvider>
+          </ChakraProvider>
+        </CacheProvider >
+      </body>
     </html>
-  );
+  )
 }

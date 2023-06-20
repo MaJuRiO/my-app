@@ -55,7 +55,7 @@ export function Nav() {
                         fontFamily={'heading'}
                         color={useColorModeValue('gray.800', 'white')}>
                         <Link href='\'>
-                            <Img height="60px" src="/pea.png" />
+                            <Img height="60px" src="/pea.png" alt="logo"/>
                         </Link>
                     </Text>
                     <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
