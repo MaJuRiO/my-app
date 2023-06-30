@@ -25,6 +25,7 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
+import { useSession } from 'next-auth/react';
 
 interface LinkItemProps {
     name: string;
@@ -38,7 +39,8 @@ const CHARGER_MANAGEMENT_Items: Array<LinkItemProps> = [
 
 export default function SimpleSidebar({ children }: { children: ReactNode }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    return (
+    const { data: session } = useSession()
+    if (session?.user.role === "admin") return (
         <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
             <SidebarContent
                 onClose={() => onClose}
@@ -61,6 +63,9 @@ export default function SimpleSidebar({ children }: { children: ReactNode }) {
             </Box>
         </Box>
     );
+    return (
+        <>{children}</>
+    )
 }
 
 interface SidebarProps extends BoxProps {
@@ -76,6 +81,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             w={{ base: 'full', md: 60 }}
             pos="fixed"
             h="full"
+            mt={'60px'}
             {...rest}>
             <Flex marginTop={5} h="18" alignItems="center" mx="8" justifyContent="space-between">
                 <Text fontSize="md" fontFamily="monospace" paddingY={5}>

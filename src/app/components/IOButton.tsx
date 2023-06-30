@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, IconButton, Stack, Text, useColorMode } from "@chakra-ui/react";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const IObutton = () => {
@@ -14,9 +14,11 @@ const IObutton = () => {
             </Flex>
         );
     } return (
-        <Button onClick={() => signIn()} className="text-green-600 ml-auto">
-            Sign In
-        </Button>
+        <Stack>
+            <Button onClick={() => signIn()}>
+                Login for Admin
+            </Button>
+        </Stack>
     );
 };
 export default IObutton;

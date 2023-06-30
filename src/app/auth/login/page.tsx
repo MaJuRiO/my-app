@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from "react";
 import {
-    Spacer,
     Flex,
     Box,
     FormControl,
@@ -16,21 +15,31 @@ import {
     useColorModeValue,
     Img
 } from '@chakra-ui/react';
-import { useRouter } from "next/router";
-
+import { signIn } from "next-auth/react";
+import mapImage from "../../../../public/map.png";
+import PEALogo from "../../../../public/LOGO-pea-removebg-preview.png"
 export default function Login() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-
+    const [EMAIL,SetEmail] = useState("")
+    const [Password,SetPassword] = useState("")
+    const onsubmit = () => {
+        signIn("credentials",
+            {
+                Email: EMAIL,
+                password: Password,
+                redirect: true,
+                callbackUrl: "/"
+            })
+            
+    }
     return (
-        <Flex maxW={'100%'} py={12} bgImage={'.../public/map.png'}
+        <Flex maxW={'100%'} py={12} bgImage={`url(${mapImage.src})`} h={'100vh'}
             bgRepeat={'no-repeat'}
             bgPosition={'left top'}
             bgAttachment={'fixed'}
             bgSize={'cover'}>
             <Stack spacing={8} mx={'left'} maxW={'md'} py={12} px={6}>
                 <Stack align={'center'}>
-                    <Heading fontSize={'4xl'}>ลงชื่อเข้าใช้สำหรับพนักงาน</Heading>
+                    <Heading fontSize={'4xl'} textAlign={'center'}>ลงชื่อเข้าใช้สำหรับพนักงาน</Heading>
                 </Stack>
                 <Box
                     rounded={'lg'}
@@ -38,14 +47,13 @@ export default function Login() {
                     boxShadow={'lg'}
                     p={8}>
                     <Stack spacing={4}>
-                        <form>
-                            <FormControl id="Username" >
+                            <FormControl id="Email" >
                                 <FormLabel>Username</FormLabel>
-                                <Input type="Username" isRequired={true} />
+                                <Input type="Email" isRequired={true} id="Email" onChange={(e)=>{SetEmail(e.target.value)}}/>
                             </FormControl>
                             <FormControl id="password">
                                 <FormLabel>Password</FormLabel>
-                                <Input type="password" isRequired={true} />
+                                <Input type="password" isRequired={true} name="password" onChange={(e)=>{SetPassword(e.target.value)}} />
                             </FormControl>
                             <Stack spacing={10}>
                                 <Stack
@@ -60,16 +68,17 @@ export default function Login() {
                                     color={'white'}
                                     _hover={{
                                         bg: 'blue.500',
-                                    }}>
+                                    }}
+                                    onClick={onsubmit}
+                                >
                                     Log in
                                 </Button>
                             </Stack>
-                        </form>
                     </Stack>
                 </Box>
             </Stack >
             <Stack justify={'center'} marginLeft={{ base: '0', sm: '15%' }}>
-                <Img src={'LOGO-pea-removebg-preview.png'} />
+                <Img src={`${PEALogo.src}`} />
             </Stack>
         </Flex >
     );

@@ -11,6 +11,7 @@ declare module "next-auth" {
             Lname: string;
             Email: string;
             password: string;
+            role:string;
 
         }
     }

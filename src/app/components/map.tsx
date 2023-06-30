@@ -1,14 +1,71 @@
 "use client"
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
-import { latlng } from '../components/latlngStation';
 import { useRouter } from "next/navigation";
+import '../styles/map.css'
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Card,
+  CardBody,
+  Heading,
+  useDisclosure,
+  Button,
+  Text,
+  Icon,
+} from '@chakra-ui/react'
+import { CircleIcon } from "./CircleIcon";
+type typedata = {
+  chargerName: string;
+  ownerAddress: string;
+  csPath: string;
+  online: string;
+  deviceType: string;
+  location: string;
+  ownerShip: string;
+  latlng: string;
+  stationName: string;
+  stationAddress: string;
+  public: string;
+  heartbeatInterval: string;
+  dateModified: string;
+  serviceRateLabel: string;
+  serviceHourLabel: string;
+}
+
 var currentMarkers: any = [];
-const Map = () => {
+export default function Map({ searchKey }: any) {
   const router = useRouter()
+  const [station, setlocation] = useState<typedata[]>([])
   const [map, setMap] = useState(null);
-  const box = latlng().filter(item => item.latlng != undefined)
+  useEffect(() => {
+    console.log(searchKey)
+    const axios = require('axios');
+    axios.get(`http://localhost:3014/home/api/station?${searchKey}`).then(function (response: any) {
+      const raw = response.data
+      const cooked = raw.filter((item: any) => item.latlng != undefined).map((item: any) => {
+        const latlng = item.latlng.split(",");
+        const latitudeString = latlng[0].split(":")[1].trim();
+        const longitudeString = latlng[1].split(":")[1].trim();
+        const latitude = parseFloat(latitudeString);
+        const longitude = parseFloat(longitudeString);
+        const latlngtude = {
+          lat: latitude,
+          lng: longitude,
+        };
+        item.latlng = latlngtude
+        return item
+      });
+      setlocation(cooked)
+    });
+  }, [searchKey])
+
   useEffect(() => {
     if (!map) {
       const map = new mapboxgl.Map({
@@ -20,15 +77,16 @@ const Map = () => {
       });
       setMap(map)
     }
-
-    box.forEach((item) => {
-      const name = `<h3>${item.stationName}</h3><p>${item.stationAddress}</p>`;
-      const innerHtmlContent = `<div style="min-width: 300px;font-size: large;color : black;">
-                  <h4 class="h4Class">${name} </h4></div>`;
+    removeMarker();
+    station.forEach((item) => {
+      const name = `<p class="stationName">${item.stationName}</p><p class="stationAddress">${item.stationAddress}</p>`;
+      const innerHtmlContent =
+        `<div style="min-width: 300px;color : black;">
+                  <p>${name} </p></div>`;
 
       const divElement = document.createElement('div');
       const assignBtn = document.createElement('div');
-      assignBtn.innerHTML = `<Button colorScheme='blue'> Config </Button>`;
+      assignBtn.innerHTML = `<button class="btn-config"> Config </button>`;
       divElement.innerHTML = innerHtmlContent;
       divElement.appendChild(assignBtn);
       // btn.className = 'btn';
@@ -41,32 +99,82 @@ const Map = () => {
         .setPopup(new mapboxgl.Popup({ offset: 25, focusAfterOpen: true, maxWidth: '300px' })
           .setDOMContent(divElement))
         .addTo(map);
-      //markerElement.addEventListener('click', (e) => {
-      //  map.flyTo({
-      //    center: [item.latlng.lng, item.latlng.lat],
-      //    zoom: 15
-      //  })
-      //})
       currentMarkers.push(marker);
     });
 
-  }, [map])
-  return <div id="map" style={{ width: '100%', height: '600px' }}></div>;
+  }, [map, station])
+  return <div id="map" style={{ width: '100%', height: '650px', marginTop: '65px' }}></div>;
 };
-
-export default Map;
 
 export function removeMarker(): void {
   if (currentMarkers !== null) {
     for (var i = currentMarkers.length - 1; i >= 0; i--) {
       currentMarkers[i].remove();
     }
-    console.log("remove all marker!!")
   }
 }
 
-export function addMarker(map: mapboxgl.Map): void {
-  removeMarker()
-  const marker = new mapboxgl.Marker().setLngLat([90, 10]).addTo(map);
-  //currentMarkers.push(marker);
+export const poppoppop = ({ searchKey }: any) => {
+  const [station, setlocation] = useState<typedata[]>([])
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  useEffect(() => {
+    const axios = require('axios');
+    axios.get(`http://localhost:3014/home/api/station?${searchKey}`).then(function (response: any) {
+      const raw = response.data
+      const cooked = raw.filter((item: any) => item.latlng != undefined).map((item: any) => {
+        const latlng = item.latlng.split(",");
+        const latitudeString = latlng[0].split(":")[1].trim();
+        const longitudeString = latlng[1].split(":")[1].trim();
+        const latitude = parseFloat(latitudeString);
+        const longitude = parseFloat(longitudeString);
+        const latlngtude = {
+          lat: latitude,
+          lng: longitude,
+        };
+        item.latlng = latlngtude
+        return item
+      });
+      setlocation(cooked)
+      return station
+    });
+    removeMarker();
+  }, [searchKey])
+  return (<Drawer
+    isOpen={isOpen}
+    placement='right'
+    onClose={onClose}
+    size='md'
+  >
+    <DrawerOverlay />
+    <DrawerContent>
+      <DrawerCloseButton />
+      <DrawerHeader textAlign={'center'}>--Electrical Vehicle Charger--</DrawerHeader>
+
+      <DrawerBody>
+        {station.map((item) => {
+          if (item.online == 'on') {
+            return (<Card><CardBody><Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='green.500' />{item.chargerName}</Heading >
+              <Text pt='2' fontSize='sm'>{item.stationAddress}</Text>
+
+            </CardBody></Card>
+            )
+          }
+          else {
+            return (<Card><CardBody><Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='red.500' />{item.chargerName}</Heading >
+              <Text pt='2' fontSize='sm'>{item.stationAddress}</Text>
+
+            </CardBody></Card>
+            )
+          }
+        })}
+      </DrawerBody>
+
+      <DrawerFooter>
+        <Button variant='outline' mr={3} onClick={onClose}>
+          Cancel
+        </Button>
+
+      </DrawerFooter>
+    </DrawerContent>
+  </Drawer>)
 }
