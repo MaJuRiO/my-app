@@ -7,7 +7,6 @@ export const ColorStatusIconButton = () => {
     const initialFocusRef = React.useRef()
     return (
         <Popover
-            initialFocusRef={initialFocusRef}
             placement='bottom'
             closeOnBlur={false}
         >

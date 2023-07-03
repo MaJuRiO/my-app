@@ -75,7 +75,7 @@ import { TfiMapAlt } from "react-icons/tfi";
 import { useSession } from 'next-auth/react';
 
 export default function BasicStatistics() {
-    const [data, setData] = useState<typedata>([])
+    const [data, setData] = useState<typedata | any>()
     const searchParams = useSearchParams()
     const [sliderValue, setSliderValue] = React.useState(0)
     const [showTooltip, setShowTooltip] = React.useState(false)
@@ -308,7 +308,7 @@ export default function BasicStatistics() {
                             <Box pl={{ base: 2, md: 4 }}>
                                 <StatNumber fontSize={'xl'} fontWeight={'medium'} minW={100} maxW={500}>
                                     <Flex gap={10}>
-                                        {data.connector.map(item => {
+                                        {data.connector.map((item: any) => {
                                             if (item.connectorId != 0 && item.connectorStatus == 'Available')
                                                 return (
                                                     <>

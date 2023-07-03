@@ -21,6 +21,10 @@ import {
   Icon,
 } from '@chakra-ui/react'
 import { CircleIcon } from "./CircleIcon";
+type latlngtype = {
+  lat: number;
+  lng: number;
+};
 type typedata = {
   chargerName: string;
   ownerAddress: string;
@@ -29,7 +33,7 @@ type typedata = {
   deviceType: string;
   location: string;
   ownerShip: string;
-  latlng: string;
+  latlng: latlngtype;
   stationName: string;
   stationAddress: string;
   public: string;
@@ -39,11 +43,12 @@ type typedata = {
   serviceHourLabel: string;
 }
 
+
 var currentMarkers: any = [];
 export default function Map({ searchKey }: any) {
   const router = useRouter()
   const [station, setlocation] = useState<typedata[]>([])
-  const [map, setMap] = useState(null);
+  const [map, setMap] = useState<any>(null);
   useEffect(() => {
     console.log(searchKey)
     const axios = require('axios');
@@ -75,7 +80,8 @@ export default function Map({ searchKey }: any) {
         center: [100.523186, 13.736717], // starting position [lng, lat]
         zoom: 5, // starting zoom
       });
-      setMap(map)
+      setMap(
+        map)
     }
     removeMarker();
     station.forEach((item) => {

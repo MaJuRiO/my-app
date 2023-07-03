@@ -22,11 +22,11 @@ export function CustomControlsExample({ value, name }: any) {
 
         return isEditing ? (
             <ButtonGroup justifyContent='center' size='sm'>
-                <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
-                <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
+                <IconButton aria-label='text' icon={<CheckIcon />} {...getSubmitButtonProps()} />
+                <IconButton aria-label='text' icon={<CloseIcon />} {...getCancelButtonProps()} />
             </ButtonGroup>
         ) : (
-            <IconButton size='sm' icon={<EditIcon />} {...getEditButtonProps()} />
+            <IconButton aria-label='text' size='sm' icon={<EditIcon />} {...getEditButtonProps()} />
         )
     }
 
