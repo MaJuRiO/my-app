@@ -11,7 +11,7 @@ export const authOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
-                const res = await fetch("/api/login", {
+                const res = await fetch('http://localhost:3000/api/login', {
                     method: 'POST',
                     body: JSON.stringify({
                         Email: credentials?.Email,
@@ -20,7 +20,6 @@ export const authOptions = {
                     headers: { "Content-Type": "application/json" }
                 })
                 const data = await res.json()
-
 
                 if (data.status == "ok") {
                     return data.user
