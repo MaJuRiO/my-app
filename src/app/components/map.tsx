@@ -51,7 +51,7 @@ export default function Map({ searchKey }: any) {
   useEffect(() => {
     console.log(searchKey)
     const axios = require('axios');
-    axios.get(`${process.env.API_OCCP_ADDRESS}/home/api/station?${searchKey}`).then(function (response: any) {
+    axios.get(`http://103.30.126.196:3014/home/api/station?${searchKey}`).then(function (response: any) {
       const raw = response.data
       const cooked = raw.filter((item: any) => item.latlng != undefined).map((item: any) => {
         const latlng = item.latlng.split(",");
@@ -124,7 +124,8 @@ export const poppoppop = ({ searchKey }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   useEffect(() => {
     const axios = require('axios');
-    axios.get(`${process.env.API_OCCP_ADDRESS}/home/api/station?${searchKey}`).then(function (response: any) {
+    
+    axios.get(`http://103.30.126.196:3014/home/api/station?${searchKey}`).then(function (response: any) {
       const raw = response.data
       const cooked = raw.filter((item: any) => item.latlng != undefined).map((item: any) => {
         const latlng = item.latlng.split(",");

@@ -67,7 +67,7 @@ const CircleIcon = (props: any) => (
 export default function Page() {
     const [URL, setURL] = useState('');
     useEffect(() => {
-        axios.get(`${process.env.API_OCCP_ADDRESS}/home/api/station?${URL}`).then(function (response: any) {
+        axios.get(`http://103.30.126.196:3014/home/api/station?${URL}`).then(function (response: any) {
             const raw = response.data
             const cooked = raw.filter((item: any) => item.latlng != undefined)
             setUseData(cooked)
