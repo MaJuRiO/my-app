@@ -24,7 +24,7 @@ export const latlng = (filter: string) => {
     const [location, setlocation] = useState<typedata[]>([])
     useEffect(() => {
         const axios = require('axios');
-        axios.get(`http://localhost:3014/home/api/station?${filter}`).then(function (response: any) {
+        axios.get(`${process.env.API_OCCP_ADDRESS}/home/api/station?${filter}`).then(function (response: any) {
             const raw = response.data
             const cooked = raw.filter((item:any) => item.latlng != undefined).map((item: any) => {
                 const latlng = item.latlng.split(",");
