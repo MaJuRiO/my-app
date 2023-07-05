@@ -65,9 +65,9 @@ const CircleIcon = (props: any) => (
 )
 
 export default function Page() {
-    const [URL, setURL] = useState('');
+    const [URL, setURL] = useState(''); 
     useEffect(() => {
-        axios.get(`http://103.30.126.196:3014/home/api/station?${URL}`).then(function (response: any) {
+        axios.get(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station?${URL}`).then(function (response: any) {
             const raw = response.data
             const cooked = raw.filter((item: any) => item.latlng != undefined)
             setUseData(cooked)
@@ -100,7 +100,6 @@ export default function Page() {
                     <DrawerContent>
                         <DrawerCloseButton />
                         <DrawerHeader textAlign={'center'}>--Electrical Vehicle Charger--</DrawerHeader>
-
                         <DrawerBody>
                             {useData.map((item) => {
                                 if (item.online == 'on') {
@@ -119,12 +118,10 @@ export default function Page() {
                                 }
                             })}
                         </DrawerBody>
-
                         <DrawerFooter>
                             <Button variant='outline' mr={3} onClick={onClose}>
                                 Cancel
                             </Button>
-
                         </DrawerFooter>
                     </DrawerContent>
                 </Drawer>

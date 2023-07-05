@@ -11,7 +11,7 @@ export const authOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
-                const res = await fetch(`${process.env.API_ACCOUNT_ADDRESS}/api/login`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_ACCOUNT_ADDRESS}/api/login`, {
                     method: 'POST',
                     body: JSON.stringify({
                         Email: credentials?.Email,

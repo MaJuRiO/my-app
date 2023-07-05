@@ -83,7 +83,7 @@ export default function BasicStatistics() {
     const { data: session } = useSession()
     const router = useRouter();
     const toast = useToast()
-    const url = `${process.env.API_OCCP_ADDRESS}/home/api/station?${searchParams?.toString()}`
+    const url = `${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station?${searchParams?.toString()}`
     // get api for pull charger data
     useMemo(() => {
         axios.get(url).then(function (response: any) {
@@ -108,7 +108,7 @@ export default function BasicStatistics() {
 
     // patch api for update profile charger
     function updateStation() {
-        axios.patch(`${process.env.API_OCCP_ADDRESS}/api/station/${data.chargerName}`,
+        axios.patch(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/api/station/${data.chargerName}`,
             {
                 "ownerShip": document.getElementById("ownerShip")!.getAttribute("value"),
                 "heartbeatInterval": sliderValue,
@@ -133,7 +133,7 @@ export default function BasicStatistics() {
 
     //patch api for ปิดการ online ของเครื่อง charger
     function TurnOFFCharger() {
-        axios.patch(`${process.env.API_OCCP_ADDRESS}/home/api/station/${data.chargerName}`, { "online": "off" })
+        axios.patch(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station/${data.chargerName}`, { "online": "off" })
     }
 
     //popup ปิดการ online ของเครื่อง charger
