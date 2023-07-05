@@ -43,7 +43,6 @@ type typedata = {
   serviceHourLabel: string;
 }
 
-
 var currentMarkers: any = [];
 export default function Map({ searchKey }: any) {
   const router = useRouter()

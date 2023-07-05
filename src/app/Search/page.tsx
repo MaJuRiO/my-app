@@ -64,7 +64,6 @@ const CircleIcon = (props: any) => (
     </Icon>
 )
 
-
 export default function Page() {
     const [URL, setURL] = useState('');
     useEffect(() => {

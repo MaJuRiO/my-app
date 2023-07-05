@@ -11,7 +11,7 @@ export const authOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
-                const res = await fetch('http://localhost:3000/api/login', {
+                const res = await fetch('http://103.30.126.196:3015/api/login', {
                     method: 'POST',
                     body: JSON.stringify({
                         Email: credentials?.Email,
