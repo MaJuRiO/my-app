@@ -65,7 +65,7 @@ const CircleIcon = (props: any) => (
 )
 
 export default function Page() {
-    const [URL, setURL] = useState(''); 
+    const [URL, setURL] = useState('');
     useEffect(() => {
         axios.get(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station?${URL}`).then(function (response: any) {
             const raw = response.data
@@ -86,7 +86,7 @@ export default function Page() {
         ownerAddress: ""
     });
     const url = `keySearch=${keySearch}&chargerName=${chargerName}&csPath=${csPath}&location=${location}&deviceType=${deviceType}&online=${online}&deviceId=${deviceId}&ownerAddress=${ownerAddress}`;
-    function Listpopup() {
+    const Drawerlist = () => {
         return (
             <Stack align={'center'}>
                 <Button colorScheme='teal' onClick={() => {
@@ -103,25 +103,39 @@ export default function Page() {
                         <DrawerBody>
                             {useData.map((item) => {
                                 if (item.online == 'on') {
-                                    return (<Card><CardBody><Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='green.500' />{item.chargerName}</Heading >
-                                        <Text pt='2' fontSize='sm'>{item.stationAddress}</Text>
-
-                                    </CardBody></Card>
+                                    return (
+                                        <Card key={item.chargerName}>
+                                            <CardBody>
+                                                <Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='green.500' />
+                                                    {item.chargerName}
+                                                </Heading >
+                                                <Text pt='2' fontSize='sm'>
+                                                    {item.stationAddress}
+                                                </Text>
+                                            </CardBody>
+                                        </Card>
                                     )
                                 }
                                 else {
-                                    return (<Card><CardBody><Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='red.500' />{item.chargerName}</Heading >
-                                        <Text pt='2' fontSize='sm'>{item.stationAddress}</Text>
-
-                                    </CardBody></Card>
+                                    return (
+                                        <Card key={item.chargerName}>
+                                            <CardBody>
+                                                <Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='red.500' />
+                                                    {item.chargerName}
+                                                </Heading >
+                                                <Text pt='2' fontSize='sm'>
+                                                    {item.stationAddress}
+                                                </Text>
+                                            </CardBody>
+                                        </Card>
                                     )
                                 }
                             })}
                         </DrawerBody>
                         <DrawerFooter>
                             <Button variant='outline' mr={3} onClick={onClose}>
-                                Cancel
-                            </Button>
+                                Close
+                            </Button>   
                         </DrawerFooter>
                     </DrawerContent>
                 </Drawer>
@@ -132,10 +146,7 @@ export default function Page() {
     if (session?.user.role === "admin") {
         return (
             <Flex minWidth='max-content' alignSelf='center' gap='2' >
-                <Box bgGradient={useColorModeValue([
-                    'linear(to-tr, teal.300, yellow.400)',
-                    'linear(to-t, blue.200, teal.500)',
-                    'linear(to-b, orange.100, purple.300)',], ['linear(to-t, #460d5c, #4541b9'])}
+                <Box bgGradient={useColorModeValue(['linear(to-b, orange.100, purple.300)'], ['linear(to-t, #4541b9, #460d5c)'])}
                     w={350}
                     h={'100vh'}
                     borderRight="1px"
@@ -175,7 +186,7 @@ export default function Page() {
                             <Input placeholder='Owner Address' type='text' w={250} id='ownerAddress' name='ownerAddress' autoComplete='off'
                                 onChange={(e) => { setkeysearch(prevState => ({ ...prevState, ownerAddress: e.target.value })); }} />
                         </Stack>
-                        <Listpopup />
+                        <Drawerlist />
                     </VStack>
                 </Box>
                 <Map searchKey={URL} />

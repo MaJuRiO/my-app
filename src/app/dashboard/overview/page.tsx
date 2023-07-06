@@ -108,7 +108,7 @@ export default function BasicStatistics() {
 
     // patch api for update profile charger
     function updateStation() {
-        axios.patch(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/api/station/${data.chargerName}`,
+        axios.patch(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station/${data.chargerName}`,
             {
                 "ownerShip": document.getElementById("ownerShip")!.getAttribute("value"),
                 "heartbeatInterval": sliderValue,

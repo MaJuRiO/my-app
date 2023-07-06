@@ -10,7 +10,6 @@ export default function RootLayout({ children, session }: { children: React.Reac
   return (
     <html lang='en'>
       <title>PEA</title>
-      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
       <body>
         <CacheProvider>
           <ChakraProvider>
