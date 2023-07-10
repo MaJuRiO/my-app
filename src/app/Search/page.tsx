@@ -21,19 +21,10 @@ import {
     Card,
     CardBody,
     Heading,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalCloseButton,
-    ModalFooter,
 } from '@chakra-ui/react'
 import { useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Map from '../components/map';
-import mapboxgl from 'mapbox-gl';
-import { removeMarker, poppoppop } from '../components/map';
 import React from 'react';
 const axios = require('axios');
 
@@ -89,12 +80,6 @@ export default function Page() {
     const Drawerlist = () => {
         return (
             <Stack align={'center'}>
-                <Button colorScheme='teal' onClick={() => {
-                    onOpen();
-                    setURL(url);
-                }}>
-                    Search
-                </Button>
                 <Drawer isOpen={isOpen} placement='right' onClose={onClose} size='md'>
                     <DrawerOverlay />
                     <DrawerContent>
@@ -135,7 +120,7 @@ export default function Page() {
                         <DrawerFooter>
                             <Button variant='outline' mr={3} onClick={onClose}>
                                 Close
-                            </Button>   
+                            </Button>
                         </DrawerFooter>
                     </DrawerContent>
                 </Drawer>
@@ -186,6 +171,12 @@ export default function Page() {
                             <Input placeholder='Owner Address' type='text' w={250} id='ownerAddress' name='ownerAddress' autoComplete='off'
                                 onChange={(e) => { setkeysearch(prevState => ({ ...prevState, ownerAddress: e.target.value })); }} />
                         </Stack>
+                        <Button colorScheme='teal' onClick={ () => {
+                            setURL(url)
+                            onOpen();
+                        }}>
+                            Search
+                        </Button>
                         <Drawerlist />
                     </VStack>
                 </Box>

@@ -96,15 +96,26 @@ export default function Map({ searchKey }: any) {
       divElement.appendChild(assignBtn);
       // btn.className = 'btn';
       assignBtn.addEventListener('click', (e) => {
-        router.push(`/dashboard/overview?chargerName=${item.chargerName}`)
+        router.replace(`/dashboard/overview?chargerName=${item.chargerName}`)
       });
 
-      const marker = new mapboxgl.Marker({ color: item.online === "on" ? "#56F000" : "#FFB302" })
+      const el = document.createElement('div');
+      el.id = `marker-${item.chargerName}`;
+      el.className = `marker-${item.online}`;
+
+      const marker = new mapboxgl.Marker(el)
         .setLngLat([item.latlng.lng, item.latlng.lat])
         .setPopup(new mapboxgl.Popup({ offset: 25, focusAfterOpen: true, maxWidth: '300px' })
           .setDOMContent(divElement))
         .addTo(map);
       currentMarkers.push(marker);
+      console.log(el)
+      el.addEventListener('click', () => {
+        map.flyTo({
+          center: [item.latlng.lng, item.latlng.lat],
+          zoom: 13
+        });
+      });
     });
 
   }, [map, station])
@@ -124,7 +135,7 @@ export const poppoppop = ({ searchKey }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   useEffect(() => {
     const axios = require('axios');
-    
+
     axios.get(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station?${searchKey}`).then(function (response: any) {
       const raw = response.data
       const cooked = raw.filter((item: any) => item.latlng != undefined).map((item: any) => {

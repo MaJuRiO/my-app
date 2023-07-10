@@ -84,27 +84,31 @@ export default function BasicStatistics() {
     const router = useRouter();
     const toast = useToast()
     const url = `${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station?${searchParams?.toString()}`
+    router.replace(`/dashboard/overview`)
     // get api for pull charger data
-    useMemo(() => {
-        axios.get(url).then(function (response: any) {
-            const raw = response.data[0]
-            const condition: Record<string, string> = {
-                ac2: 'AC type 2',
-                dcccs: 'DC CCS Type 2',
-                dccha: 'CHAdeMO',
-            };
+    if (searchParams?.toString() != "") {
+        useMemo(() => {
+            axios.get(url).then(function (response: any) {
+                const raw = response.data[0]
+                const condition: Record<string, string> = {
+                    ac2: 'AC type 2',
+                    dcccs: 'DC CCS Type 2',
+                    dccha: 'CHAdeMO',
+                };
 
-            // Iterate over the connectors and modify the connectorType based on the condition
-            for (const connector of raw.connector) {
-                if (connector.connectorType in condition) {
-                    connector.connectorType = condition[connector.connectorType];
+                // Iterate over the connectors and modify the connectorType based on the condition
+                for (const connector of raw.connector) {
+                    if (connector.connectorType in condition) {
+                        connector.connectorType = condition[connector.connectorType];
+                    }
                 }
-            }
-            setData(raw)
-            setSliderValue(response.data[0].heartbeatInterval)
-            setloading(true)
-        })
-    }, []);
+                setData(raw)
+                setSliderValue(response.data[0].heartbeatInterval)
+                setloading(true)
+            })
+        }, []);
+    }
+
 
     // patch api for update profile charger
     function updateStation() {
