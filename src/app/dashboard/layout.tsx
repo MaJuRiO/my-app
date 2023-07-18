@@ -1,5 +1,5 @@
 'use client'
-import React, { ReactNode } from 'react';
+import React, { ReactNode, ReactText } from 'react';
 import {
     IconButton,
     Box,
@@ -24,18 +24,14 @@ import {
     FiMenu,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
-import { ReactText } from 'react';
 import { useSession } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 
 interface LinkItemProps {
     name: string;
     icon: IconType;
+    path: string;
 }
-const CHARGER_MANAGEMENT_Items: Array<LinkItemProps> = [
-    { name: 'Overview', icon: FiHome },
-    { name: 'Charger', icon: FiTrendingUp },
-    { name: 'Access', icon: FiCompass },
-];
 
 export default function SimpleSidebar({ children }: { children: ReactNode }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -72,7 +68,15 @@ interface SidebarProps extends BoxProps {
     onClose: () => void;
 }
 
+
+
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+    const searchParams = useSearchParams()
+    const CHARGER_MANAGEMENT_Items: Array<LinkItemProps> = [
+        { name: 'Overview', icon: FiHome, path: '/dashboard/overview?' + searchParams?.toString() },
+        { name: 'Charger', icon: FiTrendingUp, path: '/dashboard/ChargerConnector?' + searchParams?.toString() },
+        { name: 'Access', icon: FiCompass, path: '#' },
+    ];
     return (
         <Box
             bg={useColorModeValue('white', 'gray.900')}
@@ -90,7 +94,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
                 <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Flex>
             {CHARGER_MANAGEMENT_Items.map((link) => (
-                <NavItem key={link.name} icon={link.icon}>
+                <NavItem key={link.name} icon={link.icon} path={link.path}>
                     {link.name}
                 </NavItem>
             ))}
@@ -100,11 +104,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
 interface NavItemProps extends FlexProps {
     icon: IconType;
+    path: string;
     children: ReactText;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ path, icon, children, ...rest }: NavItemProps) => {
     return (
-        <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+        <Link href={path} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
             <Flex
                 align="center"
                 p="4"

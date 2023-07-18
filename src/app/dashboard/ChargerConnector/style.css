@@ -1,0 +1,8 @@
+.Card:hover{
+    transform: scale(1.1);
+    transition: 0.5s ease;
+}
+
+.text{
+    font-size: 28px;
+}

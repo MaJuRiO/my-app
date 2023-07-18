@@ -63,6 +63,7 @@ export default function Page() {
             const cooked = raw.filter((item: any) => item.latlng != undefined)
             setUseData(cooked)
         })
+        
     }, [URL])
     const [useData, setUseData] = useState<typedata[]>([]);
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -89,7 +90,7 @@ export default function Page() {
                             {useData.map((item) => {
                                 if (item.online == 'on') {
                                     return (
-                                        <Card key={item.chargerName}>
+                                        <Card key={item.chargerName} id={item.chargerName}>
                                             <CardBody>
                                                 <Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='green.500' />
                                                     {item.chargerName}
@@ -103,7 +104,7 @@ export default function Page() {
                                 }
                                 else {
                                     return (
-                                        <Card key={item.chargerName}>
+                                        <Card key={item.chargerName} id={item.chargerName}>
                                             <CardBody>
                                                 <Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='red.500' />
                                                     {item.chargerName}
@@ -171,7 +172,7 @@ export default function Page() {
                             <Input placeholder='Owner Address' type='text' w={250} id='ownerAddress' name='ownerAddress' autoComplete='off'
                                 onChange={(e) => { setkeysearch(prevState => ({ ...prevState, ownerAddress: e.target.value })); }} />
                         </Stack>
-                        <Button colorScheme='teal' onClick={ () => {
+                        <Button colorScheme='teal' onClick={() => {
                             setURL(url)
                             onOpen();
                         }}>

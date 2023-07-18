@@ -1,5 +1,4 @@
 import React from "react";
-import { useSession, signIn, signOut } from "next-auth/react"
 import {
     Box,
     Flex,
@@ -15,10 +14,6 @@ import {
     Icon,
     useColorMode,
 } from '@chakra-ui/react';
-import {
-    HamburgerIcon,
-    CloseIcon,
-} from '@chakra-ui/icons';
 import IOButton from './IOButton';
 import { FaMoon, FaSun } from "react-icons/fa";
 export function Nav() {

@@ -83,8 +83,7 @@ export default function BasicStatistics() {
     const { data: session } = useSession()
     const router = useRouter();
     const toast = useToast()
-    const url = `${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station?${searchParams?.toString()}`
-    router.replace(`/dashboard/overview`)
+    const url = `${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station?${searchParams?.toString()}`  
     // get api for pull charger data
     if (searchParams?.toString() != "") {
         useMemo(() => {
