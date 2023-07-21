@@ -55,7 +55,7 @@ export default function page() {
     const { data: session } = useSession()
     const searchParams = useSearchParams()?.get('chargerName')
     const [message, setMessage] = useState("");
-    const [Meterdata, setMeterdata] = useState<MeterType>()
+    const [Meterdata, setMeterdata] = useState<MeterType|any>()
     const [StatusNoti, setStatusNoti] = useState<StatusNotiType>()
     const axios = require('axios');
     const [currentValue, setcurrenValue] = useState(Meterdata?.data.current)
