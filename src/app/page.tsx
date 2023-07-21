@@ -26,9 +26,6 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import './styles/home.css'
 
-function myFunction() {
-  location.replace("/Search")
-}
 import data from "../../data/raw.githubusercontent.com_kongvut_thai-province-data_master_api_province_with_amphure_tambon.json"
 export default function SignupCard() {
   const { data: session } = useSession()
@@ -167,32 +164,28 @@ export default function SignupCard() {
     )
 
   }
-  if (!session) {
-    return (
-      <Flex
-        id='bgImage'
-        w={'full'}
-        h={'100vh'}
-        backgroundImage="url(https://www.innomatter.com/wp-content/uploads/2023/04/EVHomeChargerCover-1024x651.jpg)"
-        backgroundSize={'cover'}
-        backgroundAttachment={'scroll'}
-      >
-        <Container
-          as={SimpleGrid}
-          maxW={'7xl'}
-          columns={{ base: 1, md: 2 }}
-          spacing={{ base: 10, lg: 32 }}
-          marginTop={'65px'}
-        >
-          <Box id='content' bgGradient='linear(to-t, rgba(70,13,92,0.5),rgba(255,255,255,0.1))' rounded={'xl'} padding={10} >
-            <Heading>ลงทะเบียน HomeCharger</Heading>
-          </Box>
-          <Page1 />
-        </Container>
-      </Flex>
-    );
-  }
   return (
-    myFunction()
-  )
+    <Flex
+      id='bgImage'
+      w={'full'}
+      h={'100vh'}
+      backgroundImage="url(https://www.innomatter.com/wp-content/uploads/2023/04/EVHomeChargerCover-1024x651.jpg)"
+      backgroundSize={'cover'}
+      backgroundAttachment={'scroll'}
+    >
+      <Container
+        as={SimpleGrid}
+        maxW={'7xl'}
+        columns={{ base: 1, md: 2 }}
+        spacing={{ base: 10, lg: 32 }}
+        marginTop={'65px'}
+      >
+        <Box id='content' bgGradient='linear(to-t, rgba(70,13,92,0.5),rgba(255,255,255,0.1))' rounded={'xl'} padding={10} >
+          <Heading>ลงทะเบียน HomeCharger</Heading>
+          {session?.user.role =="admin"? <Button onClick={()=>location.replace("/Search")}>Search Station</Button>:null}
+        </Box>
+        <Page1 />
+      </Container>
+    </Flex>
+  );
 }

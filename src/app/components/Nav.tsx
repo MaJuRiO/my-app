@@ -33,6 +33,7 @@ export function Nav() {
             borderColor={useColorModeValue('gray.200', 'gray.900')}
             align={'center'}
             id="nav"
+            zIndex={99}
         >
             <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
                 <Text

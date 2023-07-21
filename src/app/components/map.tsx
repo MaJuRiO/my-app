@@ -1,9 +1,11 @@
 "use client"
-import { useCallback, useEffect, useRef, useState } from "react";
+import {useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import { useRouter } from "next/navigation";
 import '../styles/map.css'
+import { Box, Card, CardBody, Heading, Text} from "@chakra-ui/react";
+import { CircleIcon } from "./CircleIcon";
 type latlngtype = {
   lat: number;
   lng: number;
@@ -28,11 +30,11 @@ type typedata = {
 
 var currentMarkers: any = [];
 export default function Map({ searchKey }: any) {
+
   const router = useRouter()
   const [station, setlocation] = useState<typedata[]>([])
   const [map, setMap] = useState<any>(null);
   useEffect(() => {
-    console.log(searchKey)
     const axios = require('axios');
     axios.get(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station?${searchKey}`).then(function (response: any) {
       const raw = response.data
@@ -52,11 +54,49 @@ export default function Map({ searchKey }: any) {
       setlocation(cooked)
     });
   }, [searchKey])
+
   function FlytoStation(item: any) {
     map.flyTo({
       center: [item.latlng.lng, item.latlng.lat],
       zoom: 15
     });
+  }
+  const Drawerlist = () => {
+    return (
+      <Box w={280} h="100vh" overflow={'auto'} pr={2} pl={2} >
+        <Box marginTop={65}></Box>
+        {station.map((item) => {
+          if (item.online == 'on') {
+            return (
+              <Card className="station-list" key={item.chargerName} id={item.chargerName} marginBottom={1} onClick={()=>FlytoStation(item)}>
+                <CardBody>
+                  <Heading fontSize='sm'><CircleIcon boxSize={4} color='green.500' />
+                    {item.chargerName}
+                  </Heading >
+                  <Text pt='2' fontSize='sm'>
+                    {item.stationAddress}
+                  </Text>
+                </CardBody>
+              </Card>
+            )
+          }
+          else {
+            return (
+              <Card className="station-list" key={item.chargerName} id={item.chargerName} marginBottom={2} onClick={()=>FlytoStation(item)}>
+                <CardBody>
+                  <Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='red.500' />
+                    {item.chargerName}
+                  </Heading >
+                  <Text pt='2' fontSize='sm'>
+                    {item.stationAddress}
+                  </Text>
+                </CardBody>
+              </Card>
+            )
+          }
+        })}
+
+      </Box>)
   }
   useEffect(() => {
     if (!map) {
@@ -76,7 +116,6 @@ export default function Map({ searchKey }: any) {
       const innerHtmlContent =
         `<div style="min-width: 300px;color : black;">
                   <p>${name} </p></div>`;
-
       const divElement = document.createElement('div');
       const assignBtn = document.createElement('div');
       assignBtn.innerHTML = `<button class="btn-config"> Config </button>`;
@@ -102,8 +141,10 @@ export default function Map({ searchKey }: any) {
         .addTo(map);
       currentMarkers.push(marker);
     });
+
+
   }, [map, station])
-  return <div id="map" style={{ width: '100%', height: '650px', marginTop: '65px' }}></div>;
+  return <><div id="map" style={{ width: '100%', height: '100vh' }}></div><Drawerlist /></>;
 };
 
 export function removeMarker(): void {

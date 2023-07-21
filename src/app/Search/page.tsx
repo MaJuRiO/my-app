@@ -24,10 +24,9 @@ import {
 } from '@chakra-ui/react'
 import { useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import Map from '../components/map';
+import Map, { removeMarker } from '../components/map';
 import React from 'react';
 const axios = require('axios');
-
 type typedata = {
     chargerName: string;
     ownerAddress: string;
@@ -174,14 +173,14 @@ export default function Page() {
                         </Stack>
                         <Button colorScheme='teal' onClick={() => {
                             setURL(url)
-                            onOpen();
+                            removeMarker()
                         }}>
                             Search
                         </Button>
-                        <Drawerlist />
+                        
                     </VStack>
                 </Box>
-                <Map searchKey={URL} />
+                <Map searchKey={URL} onClose={() => onClose} isOpen={isOpen}/>
             </Flex >
         );
     }

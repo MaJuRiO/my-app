@@ -1,6 +1,5 @@
 .btn-config {
     background-color: #c526d7;
-    /* Green */
     border: none;
     color: white;
     padding: 4px 4px;
@@ -11,7 +10,7 @@
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
-    border-radius: 4%;
+    border-radius: 20px;
     width: 100%;
 }
 
@@ -40,4 +39,8 @@
     width: 20px;
     background-repeat: no-repeat;
     background-image: url('@/../../../../../HomeChargerMANAGEMENT/public/marker-icons/mapbox-marker-icon-20px-red.png');
+}
+
+.station-list:hover{
+    transform: scale(1.1);
 }

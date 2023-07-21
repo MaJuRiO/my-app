@@ -68,8 +68,6 @@ interface SidebarProps extends BoxProps {
     onClose: () => void;
 }
 
-
-
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     const searchParams = useSearchParams()
     const CHARGER_MANAGEMENT_Items: Array<LinkItemProps> = [

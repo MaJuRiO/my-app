@@ -130,7 +130,8 @@ export default function BasicStatistics() {
                     status: 'success',
                     duration: 5000,
                     isClosable: true,
-                })
+                });
+                window.location.reload();
             })
     }
 
@@ -175,7 +176,6 @@ export default function BasicStatistics() {
                 <Flex justify={'right'}>
                     <Button onClick={() => {
                         updateStation();
-                        window.location.reload();
                     }}
                         height={'fit-content'} borderRadius='2px'>Save</Button>
                     <Button onClick={() => { window.location.reload() }} height={'fit-content'} borderRadius='2px'>Cancel</Button></Flex>
@@ -218,7 +218,7 @@ export default function BasicStatistics() {
                         borderColor={useColorModeValue('gray.800', 'gray.500')}
                         rounded={'lg'}>
                         <StatLabel fontWeight={'medium'} isTruncated bgColor={'purple.400'} fontSize={'2xl'} padding={2} rounded={'7px 7px 0px 0px'}>
-                            Heartbeat   Interval
+                            Heartbeat Interval
                         </StatLabel>
                         <Flex
                             justifyContent={'space-between'}
