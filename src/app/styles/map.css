@@ -29,7 +29,7 @@
     height: 48px;
     width: 20px;
     background-repeat: no-repeat;
-    background-image: url('/public/marker-icons/mapbox-marker-icon-20px-green.png');
+    background-image: url('../../../public/marker-icons/mapbox-marker-icon-20px-green.png');
 }
 
 .marker-off {
@@ -38,7 +38,7 @@
     height: 48px;
     width: 20px;
     background-repeat: no-repeat;
-    background-image: url('/public/marker-icons/mapbox-marker-icon-20px-red.png');
+    background-image: url('../../../public/marker-icons/mapbox-marker-icon-20px-red.png');
 }
 
 .station-list:hover{
