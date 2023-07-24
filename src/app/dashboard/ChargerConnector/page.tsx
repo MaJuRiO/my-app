@@ -75,6 +75,7 @@ export default function page() {
         }).then(function (response: any) {
             response.status
         }).catch(function (error: any) {
+            console.log(error.response.status)
             onOpen();
         });
     }, [])
