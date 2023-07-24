@@ -135,41 +135,6 @@ export default function BasicStatistics() {
             })
     }
 
-    //patch api for ปิดการ online ของเครื่อง charger
-    function TurnOFFCharger() {
-        axios.patch(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station/${data.chargerName}`, { "online": "off" })
-    }
-
-    //popup ปิดการ online ของเครื่อง charger
-    const TurnOffmodal = () => {
-        const { isOpen, onOpen, onClose } = useDisclosure()
-        return (
-            <>
-                <IconButton
-                    colorScheme='orange'
-                    aria-label='TurnOFF'
-                    icon={<FaPowerOff size={20} />}
-                    onClick={onOpen} />
-                <Modal isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
-                    <ModalContent>
-                        <ModalHeader>Warning</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                            <Text>Do you want to turn off this charger
-                            </Text>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button colorScheme='blue' mr={3} onClick={() => { TurnOFFCharger(); onClose(); window.location.reload(); }}>
-                                Sure
-                            </Button>
-                            <Button variant='red.500' onClick={onClose}>Cancle</Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </>
-        )
-    }
     if (loading && session?.user.role === "admin")
         return (
             <Container maxW="6xl" mx={'auto'} px={{ base: 2, sm: 12, md: 17 }} pos={'fixed'} mt={'60px'}>
@@ -193,9 +158,6 @@ export default function BasicStatistics() {
                             <Box pl={{ base: 2, md: 4 }}>
                                 <StatNumber fontSize={'sm'} fontWeight={'medium'} >
                                     <Flex align="center">
-                                        {data.online === 'on' ? (<Box marginRight={2} >
-                                            <TurnOffmodal />
-                                        </Box>) : null}
                                         <Text>Status :</Text>
                                         {data.online === 'on' ? (<OnlineIndicator />) : <OfflineIndicator />}
                                         <Text marginRight={3}>Access :</Text>

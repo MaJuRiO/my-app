@@ -75,7 +75,6 @@ export default function page() {
         }).then(function (response: any) {
             response.status
         }).catch(function (error: any) {
-            console.log(error)
             onOpen();
         });
     }, [])
@@ -261,7 +260,7 @@ export default function page() {
                     </Box>
                 </Flex >
                 <Center paddingTop={5}>
-                    <Button onClick={() => stoptran()} w={'90vw'} colorScheme={useColorModeValue('red', 'green')}>Stop<WarningTwoIcon /></Button>
+                    <Button onClick={() => stoptran()} w={'90vw'} colorScheme='red'>Stop<WarningTwoIcon /></Button>
                 </Center>
 
             </Box >
