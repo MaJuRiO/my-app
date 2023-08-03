@@ -14,6 +14,7 @@ import { useSession } from 'next-auth/react';
 import React from "react";
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import AlertDialogExample from '../../components/Alert'
 import '../ChargerConnector/style.css'
 import { io } from 'socket.io-client';
 import { WarningTwoIcon, LockIcon, UnlockIcon } from '@chakra-ui/icons'
@@ -62,6 +63,7 @@ export default function page() {
     const [powerValue, setpowerValue] = useState(Meterdata?.data.power)
     const [showTooltipCurrent, setShowTooltipCurrent] = React.useState(false)
     const [showTooltipPower, setShowTooltipPower] = React.useState(false)
+    const [lockButton,setLockbutton] = useState(false)
     const [lockcurrent, setlockCurrent] = useBoolean()
     const [lockpower, setlockpower] = useBoolean()
     useEffect(() => {
@@ -75,7 +77,9 @@ export default function page() {
         }).then(function (response: any) {
             response.status
         }).catch(function (error: any) {
-            console.log(error.response.status)
+            setlockCurrent.toggle()
+            setlockpower.toggle()
+            setLockbutton(true)
             onOpen();
         });
     }, [])
@@ -102,12 +106,7 @@ export default function page() {
         };
     }, [message])
 
-    function stoptran() {
-        axios.post(`${process.env.NEXT_PUBLIC_API_OCCP_PRODUCTION_ADDRESS}/ocpp/api/RemoteStopTransaction`, {
-            "chargerName": `${Meterdata?.data.chargerName}`,
-            "transactionId": `${Meterdata?.data.transactionId}`
-        })
-    }
+    
     const { isOpen, onOpen, onClose } = useDisclosure()
     function ConnectorNotconnect() {
         return (
@@ -210,6 +209,7 @@ export default function page() {
                                     colorScheme='teal'
                                     aria-label='Send email'
                                     icon={<UnlockIcon />}
+                                    isDisabled={lockButton}
                                     onClick={setlockCurrent.toggle}
                                 /> :
                                 <IconButton
@@ -217,6 +217,7 @@ export default function page() {
                                     colorScheme='teal'
                                     aria-label='Send email'
                                     icon={<LockIcon />}
+                                    isDisabled={lockButton}
                                     onClick={setlockCurrent.toggle}
                                 />}
                         </Flex>
@@ -248,6 +249,7 @@ export default function page() {
                                     colorScheme='teal'
                                     aria-label='Send email'
                                     icon={<UnlockIcon />}
+                                    isDisabled={lockButton}
                                     onClick={setlockpower.toggle}
                                 /> :
                                 <IconButton
@@ -255,13 +257,14 @@ export default function page() {
                                     colorScheme='teal'
                                     aria-label='Send email'
                                     icon={<LockIcon />}
+                                    isDisabled={lockButton}
                                     onClick={setlockpower.toggle}
                                 />}
                         </Flex>
                     </Box>
                 </Flex >
                 <Center paddingTop={5}>
-                    <Button onClick={() => stoptran()} w={'90vw'} colorScheme='red'>Stop<WarningTwoIcon /></Button>
+                    {AlertDialogExample(Meterdata)}
                 </Center>
 
             </Box >

@@ -37,7 +37,6 @@ export default function SignupCard() {
   const bgColor = useColorModeValue('white', 'gray.800')
   const Page1 = () => {
     return (
-      <>
         <Box>
           <form action="/api/addCharger" method="post">
             <Flex
@@ -75,7 +74,7 @@ export default function SignupCard() {
                         province_setSelect(false);
                       }}>
                       {data.data.map(data => (
-                        <option>{data.name_th}</option>
+                        <option key={data.id}>{data.name_th}</option>
                       ))}
                     </Select>
                   </FormControl>
@@ -90,7 +89,7 @@ export default function SignupCard() {
                       {data.data.map((province) => {
                         if (province.name_th == selected_province) {
                           return province.amphure.map((amphure) => (
-                            <option>
+                            <option key={amphure.id}>
                               {amphure.name_th}
                             </option>
                           ));
@@ -113,7 +112,7 @@ export default function SignupCard() {
                             return province.amphure.map((amphure) =>
                               amphure.tambon.map((tambon) => {
                                 if (amphure.name_th == selected_amphur) {
-                                  return <option>
+                                  return <option key={tambon.id}>
                                     {tambon.name_th}
                                   </option>
                                 }
@@ -133,7 +132,7 @@ export default function SignupCard() {
                             return province.amphure.map((amphure) =>
                               amphure.tambon.map((tambon) => {
                                 if (amphure.name_th == selected_amphur) {
-                                  return <option>
+                                  return <option key={tambon.id}>
                                     {tambon.zip_code}
                                   </option>
                                 }
@@ -160,7 +159,6 @@ export default function SignupCard() {
             </Flex>
           </form >
         </Box>
-      </>
     )
 
   }

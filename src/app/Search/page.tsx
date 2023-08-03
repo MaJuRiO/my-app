@@ -11,22 +11,11 @@ import {
     Text,
     useDisclosure,
     Icon,
-    Drawer,
-    DrawerBody,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerOverlay,
-    DrawerContent,
-    DrawerCloseButton,
-    Card,
-    CardBody,
-    Heading,
 } from '@chakra-ui/react'
 import { useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Map, { removeMarker } from '../components/map';
 import React from 'react';
-const axios = require('axios');
 type typedata = {
     chargerName: string;
     ownerAddress: string;
@@ -45,26 +34,9 @@ type typedata = {
     serviceHourLabel: string;
 
 }
-const CircleIcon = (props: any) => (
-    <Icon viewBox='0 0 200 200' {...props}>
-        <path
-            fill='currentColor'
-            d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'
-        />
-    </Icon>
-)
 
 export default function Page() {
     const [URL, setURL] = useState('');
-    useEffect(() => {
-        axios.get(`${process.env.NEXT_PUBLIC_API_OCCP_ADDRESS}/home/api/station?${URL}`).then(function (response: any) {
-            const raw = response.data
-            const cooked = raw.filter((item: any) => item.latlng != undefined)
-            setUseData(cooked)
-        })
-        
-    }, [URL])
-    const [useData, setUseData] = useState<typedata[]>([]);
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [{ keySearch, chargerName, csPath, location, deviceType, online, deviceId, ownerAddress }, setkeysearch] = useState({
         keySearch: "",
@@ -77,56 +49,6 @@ export default function Page() {
         ownerAddress: ""
     });
     const url = `keySearch=${keySearch}&chargerName=${chargerName}&csPath=${csPath}&location=${location}&deviceType=${deviceType}&online=${online}&deviceId=${deviceId}&ownerAddress=${ownerAddress}`;
-    const Drawerlist = () => {
-        return (
-            <Stack align={'center'}>
-                <Drawer isOpen={isOpen} placement='right' onClose={onClose} size='md'>
-                    <DrawerOverlay />
-                    <DrawerContent>
-                        <DrawerCloseButton />
-                        <DrawerHeader textAlign={'center'}>--Electrical Vehicle Charger--</DrawerHeader>
-                        <DrawerBody>
-                            {useData.map((item) => {
-                                if (item.online == 'on') {
-                                    return (
-                                        <Card key={item.chargerName} id={item.chargerName}>
-                                            <CardBody>
-                                                <Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='green.500' />
-                                                    {item.chargerName}
-                                                </Heading >
-                                                <Text pt='2' fontSize='sm'>
-                                                    {item.stationAddress}
-                                                </Text>
-                                            </CardBody>
-                                        </Card>
-                                    )
-                                }
-                                else {
-                                    return (
-                                        <Card key={item.chargerName} id={item.chargerName}>
-                                            <CardBody>
-                                                <Heading pt='2' fontSize='sm'><CircleIcon boxSize={4} color='red.500' />
-                                                    {item.chargerName}
-                                                </Heading >
-                                                <Text pt='2' fontSize='sm'>
-                                                    {item.stationAddress}
-                                                </Text>
-                                            </CardBody>
-                                        </Card>
-                                    )
-                                }
-                            })}
-                        </DrawerBody>
-                        <DrawerFooter>
-                            <Button variant='outline' mr={3} onClick={onClose}>
-                                Close
-                            </Button>
-                        </DrawerFooter>
-                    </DrawerContent>
-                </Drawer>
-            </Stack>)
-    }
-
     const { data: session } = useSession()
     if (session?.user.role === "admin") {
         return (
@@ -177,7 +99,6 @@ export default function Page() {
                         }}>
                             Search
                         </Button>
-                        
                     </VStack>
                 </Box>
                 <Map searchKey={URL} onClose={() => onClose} isOpen={isOpen}/>
